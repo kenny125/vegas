@@ -34,18 +34,18 @@ import "fmt"
 import "time"
 import "net/http"
 
-func index_handle(w http.ResponseWriter, r *http.Request) {
+func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "this is neat")
 }
-func about_handle(w http.ResponseWriter, r *http.Request) {
+func aboutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "about")
 }
 
 func main() {
 	fmt.Println("Server started at ", time.Now())
 
-	http.HandleFunc("/", index_handle)
-	http.HandleFunc("/about", about_handle)
+	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/about", aboutHandler)
 	http.ListenAndServe(":8000", nil)
 
 }
