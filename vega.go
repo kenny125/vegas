@@ -16,6 +16,7 @@ package main
 import "fmt"
 import "time"
 import "net/http"
+import "log"
 
 /*
 
@@ -26,7 +27,7 @@ import "net/http"
 \/ /_/ \__,_|_| |_|\__,_|_|\___|_|  |___/
 
 
- */
+*/
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "this is neat")
@@ -49,11 +50,11 @@ func serverInitalize() { // includes all handleFunc functions
 \/    \/\__,_|_|_| |_|
 
 
- */
+*/
 
 func main() {
 	const PORT = ":8000"
 	fmt.Println("Server started at ", time.Now())
 	go serverInitalize() // Initialize all handlers as a goroutine
-	http.ListenAndServe(PORT, nil)
+	log.Fatal(http.ListenAndServe(PORT, nil))
 }
