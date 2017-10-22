@@ -9,7 +9,7 @@ import (
 )
 
 /*
-PORT on which to server default 666
+PORT on which to server. Default = 666
 */
 const PORT = ":666"
 
@@ -34,6 +34,7 @@ func timeTrack(start time.Time, name string) {
 type myHandler struct{}
 
 func (*myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	defer timeTrack(time.Now(), "myHandler")
 	if h, ok := mux[r.URL.String()]; ok {
 		h(w, r)
 		return
@@ -49,17 +50,22 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+	defer timeTrack(time.Now(), "indexHandler")
 	io.WriteString(w, "VEGAS is LIVE")
+
 }
 
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
+	defer timeTrack(time.Now(), "aboutHandler")
 	fmt.Fprintf(w, "This is VEGAS")
+
 }
 
 func timeHandler(w http.ResponseWriter, r *http.Request) {
-	tm := time.Now().Format(time.RFC1123)
-	fmt.Fprintf(w, tm)
+	defer timeTrack(time.Now(), "timeHandler")
+	fmt.Fprintf(w, time.Now().Format(time.RFC1123))
 }
+
 func serverInitalize() { // includes all handleFunc functions
 	defer timeTrack(time.Now(), "serverInitalize")
 	mux = make(map[string]func(http.ResponseWriter, *http.Request))
@@ -82,7 +88,6 @@ func serverInitalize() { // includes all handleFunc functions
 */
 
 func main() {
-	start := time.Now()
 	server := http.Server{
 		Addr:    PORT,
 		Handler: &myHandler{},
@@ -90,7 +95,5 @@ func main() {
 
 	fmt.Println("Server started at ", time.Now().Format(time.RFC1123))
 	go serverInitalize() // Initialize all handlers as a goroutine
-	elapsed := time.Since(start).Nanoseconds()
-	fmt.Printf("Initialization took %d nanoseconds\n", elapsed)
 	log.Fatal(server.ListenAndServe())
 }
