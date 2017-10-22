@@ -1,26 +1,19 @@
-/*
-
-
- ██▒   █▓▓█████   ▄████  ▄▄▄        ██████ 
-▓██░   █▒▓█   ▀  ██▒ ▀█▒▒████▄    ▒██    ▒ 
- ▓██  █▒░▒███   ▒██░▄▄▄░▒██  ▀█▄  ░ ▓██▄   
-  ▒██ █░░▒▓█  ▄ ░▓█  ██▓░██▄▄▄▄██   ▒   ██▒
-   ▒▀█░  ░▒████▒░▒▓███▀▒ ▓█   ▓██▒▒██████▒▒
-   ░ ▐░  ░░ ▒░ ░ ░▒   ▒  ▒▒   ▓▒█░▒ ▒▓▒ ▒ ░
-   ░ ░░   ░ ░  ░  ░   ░   ▒   ▒▒ ░░ ░▒  ░ ░
-     ░░     ░   ░ ░   ░   ░   ▒   ░  ░  ░  
-      ░     ░  ░      ░       ░  ░      ░  
-     ░                                     
-
-
-*/
-
 package main
 
 import "fmt"
 import "time"
 import "net/http"
-import "log"
+import (
+	"io"
+	"log"
+)
+
+/*
+
+ */
+const PORT = ":8000"
+
+var mux map[string]func(http.ResponseWriter, *http.Request)
 
 /*
 
@@ -33,16 +26,40 @@ import "log"
 
 */
 
-func indexHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "this is neat")
+type myHandler struct{}
+
+func (*myHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	if h, ok := mux[r.URL.String()]; ok {
+		h(w, r)
+		return
+	}
+
+	io.WriteString(w, "The page at"+r.URL.String()+" is not implemented yet.")
+
 }
+
+func helloHandler(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "Hello world!")
+}
+
+func indexHandler(w http.ResponseWriter, r *http.Request) {
+	io.WriteString(w, "this is neat")
+}
+
 func aboutHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "about")
 }
 
+func timeHandler(w http.ResponseWriter, r *http.Request) {
+	tm := time.Now().Format(time.RFC1123)
+	fmt.Fprintf(w, tm)
+}
 func serverInitalize() { // includes all handleFunc functions
-	http.HandleFunc("/", indexHandler)
-	http.HandleFunc("/about", aboutHandler)
+	mux = make(map[string]func(http.ResponseWriter, *http.Request))
+	mux["/"] = indexHandler
+	mux["/about"] = aboutHandler
+	mux["/hello"] = helloHandler
+	mux["/time"] = timeHandler
 }
 
 /*
@@ -57,8 +74,12 @@ func serverInitalize() { // includes all handleFunc functions
 */
 
 func main() {
-	const PORT = ":8000"
+	server := http.Server{
+		Addr:    PORT,
+		Handler: &myHandler{},
+	}
+
 	fmt.Println("Server started at ", time.Now())
 	go serverInitalize() // Initialize all handlers as a goroutine
-	log.Fatal(http.ListenAndServe(PORT, nil))
+	log.Fatal(server.ListenAndServe())
 }
