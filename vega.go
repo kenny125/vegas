@@ -1,17 +1,17 @@
 package main
 
-import "fmt"
-import "time"
-import "net/http"
 import (
+	"fmt"
 	"io"
 	"log"
+	"net/http"
+	"time"
 )
 
 /*
-
- */
-const PORT = ":8000"
+PORT on which to server default 666
+*/
+const PORT = ":666"
 
 var mux map[string]func(http.ResponseWriter, *http.Request)
 
@@ -79,7 +79,7 @@ func main() {
 		Handler: &myHandler{},
 	}
 
-	fmt.Println("Server started at ", time.Now())
+	fmt.Println("Server started at ", time.Now().Format(time.RFC1123))
 	go serverInitalize() // Initialize all handlers as a goroutine
 	log.Fatal(server.ListenAndServe())
 }
