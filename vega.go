@@ -15,6 +15,11 @@ const PORT = ":666"
 
 var mux map[string]func(http.ResponseWriter, *http.Request)
 
+/*
+This might look like it won’t work. Any argument to a deferred function is evaluated when the defer executes.
+Not when the deferred function executes, but when the defer statement executes. So since the defer is the
+first statement in this function, the time.Now() call will happen when the function starts.
+*/
 func timeTrack(start time.Time, name string) {
 	elapsed := time.Since(start)
 	log.Printf(" %s took %d nanoseconds", name, elapsed.Nanoseconds())
