@@ -13,9 +13,10 @@ Vegas is written in Go
 1. Install Golang:
     - [golang.org](https://golang.org/dl/)
 2. Install git .
-3. ```shell cd ~  ```
-4. ```shell git clone https://github.com/nightimer-AU/Vegas.git  ```
-
+3. ``` cd ~  ```
+4. ``` git clone https://github.com/nightimer-AU/Vegas.git  ```
+5. ``` cd vegas/  ```
+6.  ``` go run vega.go  ```
 
 
 
