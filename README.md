@@ -4,7 +4,7 @@
 [![Build Status](https://semaphoreci.com/api/v1/nightimer-au/vegas/branches/master/shields_badge.svg)](https://semaphoreci.com/nightimer-au/vegas)
 [![Build Status](https://travis-ci.org/nightimer-AU/vegas.svg?branch=master)](https://travis-ci.org/nightimer-AU/vegas)
 [![BCH compliance](https://bettercodehub.com/edge/badge/nightimer-AU/vegas?branch=master)](https://bettercodehub.com/)
-
+[![Coverage Status](https://coveralls.io/repos/github/nightimer-AU/vegas/badge.svg?branch=master)](https://coveralls.io/github/nightimer-AU/vegas?branch=master)
 vegas is Very Efficient General Assistant Server.
 
 vegas is written in Go
