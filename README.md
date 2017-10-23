@@ -7,3 +7,9 @@
 Vegas is Very Efficient General Assistant Server.
 
 Vegas is written in Go
+
+
+## Install
+1. Install Golang:
+    - [golang.org](https://golang.org/doc/install)
+   
