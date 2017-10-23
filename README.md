@@ -13,6 +13,13 @@ Vegas is written in Go
 1. Install Golang:
     - [golang.org](https://golang.org/dl/)
 2. Install git .
+3. cd ~
+4. git clone https://github.com/nightimer-AU/Vegas.git
+
+
+
+
+
 
   > *Git* is a [free and open source](http://git-scm.com/about/free-and-open-source) distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
   
