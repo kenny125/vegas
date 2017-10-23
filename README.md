@@ -54,3 +54,5 @@ Vegas is written in Go
  
  **You can use *Git* now.**
  
+ 
+ https://www.jetbrains.com/go/
